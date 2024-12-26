@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "steam-user": "^5.2.0"
+  },
+  "type": "module"
+}
