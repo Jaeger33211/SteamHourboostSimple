@@ -1,9 +1,18 @@
 //Require all dependencys we need
 import fs from "fs"; // => Importing the Filesystem module to access our config file
 import steamUser from "steam-user"; // => Importing the node Steam-User package which handles our Sessions / Logins etc
+import readline from "readline";
 //OPTIONAL
 import color from "chalk"; // => Import chalk to use colors
 var config = JSON.parse(fs.readFileSync("config.json")); // Using and parsing the config file
+
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+    });
+
+
 
 var client = new steamUser;
 var username = config.username;
@@ -54,4 +63,12 @@ client.on('loggedOn', function(details) {
 client.on('error', function(e) {
 	// Some error occurred during logon
 	handleError(e.eresult);
+});
+
+client.on('steamGuard', function(domain, callback) {
+	console.log(color.yellow("Steam Guard code needed from email ending in " + domain));
+	rl.question(color.green("Enter your Steamguard Code: "), function(answer){
+    callback(answer);
+    });
+	
 });
