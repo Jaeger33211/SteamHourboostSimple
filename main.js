@@ -56,8 +56,22 @@ doBoost();
 //Handling Responses from node steam user
 client.on('loggedOn', function(details) {
 	console.log('Logged into Steam as ' + client.steamID.getSteam3RenderedID());
+     client.getOwnedApps((err, apps) => {
+    if (err) {
+      console.error("getOwnedApps error:", err);
+      return;
+    }
+    console.log("Owned apps count:", apps.length);
+    var limit =  apps.slice(0, 36)
+
+  });
 	client.setPersona(SteamUser.EPersonaState.Online);
-	client.gamesPlayed(appids);
+    if(limit<appids){
+client.gamesPlayed(appids);
+    }else{
+client.gamesPlayed(limit);
+    }
+	
 });
 
 client.on('error', function(e) {
